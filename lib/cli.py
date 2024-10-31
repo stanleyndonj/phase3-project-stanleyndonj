@@ -34,7 +34,7 @@ def manage_teams(session):
         print("2. Display All Teams")
         print("3. Find Team by ID")
         print("4. Delete Team")
-        print("5.Back to Main Menu")
+        print("5. Back to Main Menu")
 
         choice = input("Enter your choice: ")
 
@@ -50,23 +50,29 @@ def manage_teams(session):
             for team in teams:
                 print(team)
         elif choice == '3':
-            id = int(input("Enter team ID: "))
-            team = Team.find_by_id(session, id)
-            if team:
-                print(team)
-            else:
-                print("Team not found.")
+            try:
+                id = int(input("Enter team ID: "))
+                team = Team.find_by_id(session, id)
+                if team:
+                    print(team)
+                else:
+                    print("Team not found.")
+            except ValueError:
+                print("Invalid input. Please enter a valid team ID.")
         elif choice == '4':
-            id = int(input("Enter team ID: "))
-            team = Team.find_by_id(session, id)
-            if team:
-                team.delete(session)
-                print("Team deleted successfully!")
-            else:
-                print("Team not found.")
-        elif  choice == '5':
+            try:
+                id = int(input("Enter team ID: "))
+                team = Team.find_by_id(session, id)
+                if team:
+                    team.delete(session)
+                    print("Team deleted successfully!")
+                else:
+                    print("Team not found.")
+            except ValueError:
+                print("Invalid input. Please enter a valid team ID.")
+        elif choice == '5':
             break
-        else :   
+        else:
             print("Invalid choice. Please enter a number.")
 
 def manage_players(session):
@@ -83,9 +89,21 @@ def manage_players(session):
         if choice == '1':
             name = input("Enter player name: ")
             position = input("Enter player position: ")
-            team_id = int(input("Enter team ID: "))
+
+            # Validate team ID
+            while True:
+                try:
+                    team_id = int(input("Enter team ID: "))
+                    team = Team.find_by_id(session, team_id)
+                    if team:
+                        break
+                    else:
+                        print("Invalid team ID. Please enter a valid team ID.")
+                except ValueError:
+                    print("Invalid input. Please enter a number.")
+
             player = Player.create(session, name, position, team_id)
-            print("Player created successfully!",player)
+            print("Player created successfully!", player)
         elif choice == '2':
             print("\nAll Players:")
             players = Player.get_all(session)
@@ -108,9 +126,9 @@ def manage_players(session):
                 print("Player not found.")
         elif choice == '5':
             break        
-            
         else:
             print("Invalid choice. Please enter a number.")
+
 
 if __name__ == "__main__":
     main()
