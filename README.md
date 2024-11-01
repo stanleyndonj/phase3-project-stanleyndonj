@@ -19,10 +19,11 @@ FootyManager CLI is a command-line interface (CLI) application written in Python
 
 ---
 
-Project Overview
+##Project Overview
 ---
 
 Footymanager was developed CLI was developed within the frame of the project phase 3 as an attempt to learn command line interface applications, ORM, and database management. The application is perfect for a database administrator of a football club; it facilitates the efficient organization of team and player data through a simple command line interface. The database is designed to provide a means of relationship between teams and players in terms of players belonging to a team,... creating a team and seeking the roster of that team.
+
 ---
 
 ## Features
