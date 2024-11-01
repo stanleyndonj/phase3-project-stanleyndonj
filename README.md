@@ -1,166 +1,130 @@
-# Phase 3 CLI+ORM Project Template
 
-## Learning Goals
-
-- Discuss the basic directory structure of a CLI.
-- Outline the first steps in building a CLI.
+# FootyManager CLI
 
 ---
 
-## Introduction
+FootyManager CLI is a command-line interface (CLI) application written in Python programming language which is used for the administration of football players and teams stored in a local SQLite database. The application uses SQLalchemy to implement ORM, which simplifies the process of creating, retrieving, updating and deleting records from the database without having to write complex SQL statements. This project exemplifies the role of Python in the development of Command Line Interface, management of the database using SQLAlchemy ORM, and the practice of application design using modular structure.
 
-You now have a basic idea of what constitutes a CLI. Fork and clone this lesson
-for a project template for your CLI.
+---
 
-Take a look at the directory structure:
+## Table of Contents
 
-```console
-.
-├── Pipfile
-├── Pipfile.lock
-├── README.md
-└── lib
-    ├── models
-    │   ├── __init__.py
-    │   └── model_1.py
-    ├── cli.py
-    ├── debug.py
-    └── helpers.py
+1. [Project Overview](#project-overview)
+2. [Features](#features)
+3. [Installation](#installation)
+4. [Usage](#usage)
+5. [Code Structure](#code-structure)
+6. [Models Overview](#models-overview)
+7. [Future Improvements](#future-improvements)
+
+---
+
+## Project Overview
+
+The development of FootyManager CLI was carried out within the frame of the project phase 3 as an attempt to learn command line interface applications, as well as ORM and database management. The application is perfect for a database administrator of a football club; it facilitates the efficient organization of team and player data through a simple command line interface. The database is designed to provide a means of relationship between teams and players in terms of players belonging to a team,... creating a team and seeking the roster of that team.
+---
+
+## Features
+
+- **Team Management**:  team creation, team viewing, team finding, and team deletion.
+- **Player Management**: creation of players, listing, searching, deletion, linking of the players to teams.
+- **Clear and Informative CLI Prompts**: 
+Organized menu-driven navigation to improve the user's experience.
+- **ORM Database CRUD Operations**: Uses SQLAlchemy as a database CRUD handler.
+- **Modular Code Setup**: The code consists of a number of modules wherein lie separate sections for command line interface operations, model definitions, and database reset functionality.
+
+---
+
+## Installation
+
+Here how to setup FootyManager CLI and run it locally:
+
+1. **Clone the Repository**
+   ```bash
+   git clone <your-repo-url>
+   cd footy-manager-cli
+   ```
+
+2. **Install Dependencies**
+   - Ensure you have Python and Pipenv installed, then install dependencies:
+   ```bash
+   pipenv install
+   ```
+
+3. **Activate the Virtual Environment**
+   ```bash
+   pipenv shell
+   ```
+
+4. **Set Up the Database**
+   - Run the `reset_db.py` script to initialize the database:
+   ```bash
+   python reset_db.py
+   ```
+
+---
+
+## Usage
+
+To run the application, execute the following command:
+
+```bash
+python cli.py
 ```
 
-Note: The directory also includes two files named `CONTRIBUTING.md` and
-`LICENSE.md` that are specific to Flatiron's curriculum. You can disregard or
-delete the files if you want.
+This command will launch the CLI, where you can choose from the following menus:
+
+1. **Manage Teams**
+   - Create a team with `name`, `city`, and `stadium` details.
+   - List all teams in the database.
+   - Search for a team by ID.
+   - Delete a team by ID.
+
+2. **Manage Players**
+   - Add a player with a `name`, `position`, and team ID.
+   - List all players in the database.
+   - Search for a player by ID.
+   - Delete a player by ID.
 
 ---
 
-## Generating Your Environment
+## Code Structure
 
-You might have noticed in the file structure- there's already a Pipfile!
+- **cli.py**: Main CLI script, UI for managing players and teams.
+- **models.py**: Defines the Team and Player models using SQLAlchemy ORM.
+- **reset_db.py**:  A command line utility script for resetting the database which drops all tables and re-initializes them.
+- **Pipfile**:  Allows you to manage your project dependencies using Pipenv.
+- **README.md**:  Setup, Usage instructions, and Project description.
 
-Install any additional dependencies you know you'll need for your project by
-adding them to the `Pipfile`. Then run the commands:
+---
 
-```console
-pipenv install
-pipenv shell
+## Models Overview
+
+- **Team**: 
+   - Fields: `id`, `name`, `city`, `stadium`
+   - Methods: Create a team, retrieve all teams, find by ID, and delete a team.
+   - Relationships: One-to-many relationship with the `Player` model.
+
+- **Player**: 
+   - Fields: `id`, `name`, `position`, `team_id`
+   - Methods: Create a player, retrieve all players, find by ID, delete a player, and retrieve the associated team.
+   - Relationships: Many-to-one relationship with the `Team` model.
+
+---
+
+## Future Enhancements
+
+- **Stricter Validation**:Enforce validation to disallow duplicate team names being created. 
+- **Team managment**: Incorporate a player transfer system among teams.
+- **Additional search criteria**: Enable search by any other fields as for example player position or team location.
+- **Performance stats**: Expand the player model to feature performance stats like scores, assists, etc. 
+---
+
+## License
+
+This project is open-source and available under the [MIT License](LICENSE). Feel free to fork the repository and make contributions to improve the project!
+
+---
+
+Thank you for using FootyManager CLI!
 ```
-
----
-
-## Generating Your CLI
-
-A CLI is, simply put, an interactive script and prompts the user and performs
-operations based on user input.
-
-The project template has a sample CLI in `lib/cli.py` that looks like this:
-
-```py
-# lib/cli.py
-
-from helpers import (
-    exit_program,
-    helper_1
-)
-
-
-def main():
-    while True:
-        menu()
-        choice = input("> ")
-        if choice == "0":
-            exit_program()
-        elif choice == "1":
-            helper_1()
-        else:
-            print("Invalid choice")
-
-
-def menu():
-    print("Please select an option:")
-    print("0. Exit the program")
-    print("1. Some useful function")
-
-
-if __name__ == "__main__":
-    main()
-```
-
-The helper functions are located in `lib/helpers.py`:
-
-```py
-# lib/helpers.py
-
-def helper_1():
-    print("Performing useful function#1.")
-
-
-def exit_program():
-    print("Goodbye!")
-    exit()
-```
-
-You can run the template CLI with `python lib/cli.py`, or include the shebang
-and make it executable with `chmod +x`. The template CLI will ask for input, do
-some work, and accomplish some sort of task.
-
-Past that, CLIs can be whatever you'd like, as long as you follow the project
-requirements.
-
-Of course, you will update `lib/cli.py` with prompts that are appropriate for
-your application, and you will update `lib/helpers.py` to replace `helper_1()`
-with a useful function based on the specific problem domain you decide to
-implement, along with adding other helper functions to the module.
-
-In the `lib/models` folder, you should rename `model_1.py` with the name of a
-data model class from your specific problem domain, and add other classes to the
-folder as needed. The file `lib/models/__init__.py` has been initialized to
-create the necessary database constants. You need to add import statements to
-the various data model classes in order to use the database constants.
-
-You are also welcome to implement a different module and directory structure.
-However, your project should be well organized, modular, and follow the design
-principal of separation of concerns, which means you should separate code
-related to:
-
-- User interface
-- Data persistence
-- Problem domain rules and logic
-
----
-
-## Updating README.md
-
-`README.md` is a Markdown file that should describe your project. You will
-replace the contents of this `README.md` file with a description of **your**
-actual project.
-
-Markdown is not a language that we cover in Flatiron's Software Engineering
-curriculum, but it's not a particularly difficult language to learn (if you've
-ever left a comment on Reddit, you might already know the basics). Refer to the
-cheat sheet in this assignments's resources for a basic guide to Markdown.
-
-### What Goes into a README?
-
-This README serves as a template. Replace the contents of this file to describe
-the important files in your project and describe what they do. Each Python file
-that you edit should get at least a paragraph, and each function should be
-described with a sentence or two.
-
-Describe your actual CLI script first, and with a good level of detail. The rest
-should be ordered by importance to the user. (Probably functions next, then
-models.)
-
-Screenshots and links to resources that you used throughout are also useful to
-users and collaborators, but a little more syntactically complicated. Only add
-these in if you're feeling comfortable with Markdown.
-
----
-
-## Conclusion
-
-A lot of work goes into a good CLI, but it all relies on concepts that you've
-practiced quite a bit by now. Hopefully this template and guide will get you off
-to a good start with your Phase 3 Project.
-
-Happy coding!
