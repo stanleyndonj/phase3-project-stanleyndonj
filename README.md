@@ -124,7 +124,7 @@ This command will launch the CLI, where you can choose from the following menus:
 
 ## License
 
-This project is open-source and available under the [MIT License](LICENSE). Feel free to fork the repository and make contributions to improve the project!
+This project is open-source and available under the [Learn.co Educational Content License](LICENSE). Feel free to fork the repository and make contributions to improve the project!
 
 ---
 
