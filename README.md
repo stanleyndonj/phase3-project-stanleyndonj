@@ -41,7 +41,7 @@ Here how to setup FootyManager CLI and run it locally:
 
 1. **Clone the Repository**
    ```bash
-   git clone <your-repo-url>
+   git clone git@github.com:stanleyndonj/phase3-project-stanleyndonj.git
    cd footy-manager-cli
    ```
 
