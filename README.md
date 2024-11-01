@@ -1,132 +1,178 @@
 
-# FootyManager CLI
 
----
+# Phase 3 CLI+ORM Project: Football Management System
 
-FootyManager CLI is a command-line interface (CLI) application written in Python programming language which is used for the administration of football players and teams stored in a local SQLite database. The application uses SQLalchemy to implement ORM, which simplifies the process of creating, retrieving, updating and deleting records from the database without having to write complex SQL statements. This project exemplifies the role of Python in the development of Command Line Interface, management of the database using SQLAlchemy ORM, and the practice of application design using modular structure.
-
----
+A command-line interface football management system. This system will grant the user the rights to manage a simple database of football leagues, teams, and players. It will allow creating, viewing, updating, and deleting records for each of these entities, leveraging an SQLAlchemy ORM to manage database interactions.
 
 ## Table of Contents
 
-1. [Project Overview](#project-overview)
-2. [Features](#features)
-3. [Installation](#installation)
-4. [Usage](#usage)
-5. [Code Structure](#code-structure)
-6. [Models Overview](#models-overview)
-7. [Future Improvements](#future-improvements)
-
----
+- [Project Overview](#project-overview)
+- [Features](#features)
+- [Setup Instructions](#setup-instructions)
+- [Dependencies](#dependencies)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+- [Database Models](#database-models)
+- [CLI Commands](#cli-commands)
+- [Testing](#testing)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Project Overview
----
 
-Footymanager was developed CLI was developed within the frame of the project phase 3 as an attempt to learn command line interface applications, ORM, and database management. The application is perfect for a database administrator of a football club; it facilitates the efficient organization of team and player data through a simple command line interface. The database is designed to provide a means of relationship between teams and players in terms of players belonging to a team,... creating a team and seeking the roster of that team.
+This small project will demonstrate the use of SQLAlchemy ORM, handling relational database interactions from a Python CLI application. It will enable users to manage a database of football leagues, teams, and players, having relationships defined between these entities. The following is part of a Phase 3 project for a CLI+ORM assignment, where the main objectives were:
 
----
+1. Implementing a CLI that solves a real-world problem.
+2. Using SQLAlchemy to create and manage a relational database with 3+ related tables.
+3. Structuring the project, environment configuration and documentation should follow the best practices.
 
 ## Features
 
-- **Team Management**:  team creation, team viewing, team finding, and team deletion.
-- **Player Management**: creation of players, listing, searching, deletion, linking of the players to teams.
-- **Clear and Informative CLI Prompts**: 
-Organized menu-driven navigation to improve the user's experience.
-- **ORM Database CRUD Operations**: Uses SQLAlchemy as a database CRUD handler.
-- **Modular Code Setup**: The code consists of a number of modules wherein lie separate sections for command line interface operations, model definitions, and database reset functionality.
+- **CRUD Operations**: Create, read, update, and delete entries for leagues, teams, and players.
+- **Relational Database**: One-to-many relationships between League -> Teams and Team -> Players.
+- **Validation and Feedback**: The CLI provides input validation and user feedback for successful operations.
+- **Modular Design**: Organized into separate modules for CLI, models, and database setup.
 
----
+## Setup Instructions
 
-## Installation
+### 1. Clone the Repository
 
-Here how to setup FootyManager CLI and run it locally:
+```bash
+git clone git@github.com:stanleyndonj/phase3-project-stanleyndonj.git
+cd phase3-project-stanleydonjr
+```
 
-1. **Clone the Repository**
-   ```bash
-   git clone git@github.com:stanleyndonj/phase3-project-stanleyndonj.git
-   cd footy-manager-cli
-   ```
+### 2. Set up the Virtual Environment with Pipenv
 
-2. **Install Dependencies**
-   - Ensure you have Python and Pipenv installed, then install dependencies:
-   ```bash
-   pipenv install
-   ```
+Make sure you have **Pipenv** installed. If not, install it with:
 
-3. **Activate the Virtual Environment**
-   ```bash
-   pipenv shell
-   ```
+```bash
+pip install pipenv
+```
 
-4. **Set Up the Database**
-   - Run the `reset_db.py` script to initialize the database:
-   ```bash
-   python reset_db.py
-   ```
+Then, install the project dependencies:
 
----
+```bash
+pipenv install
+```
+
+Activate the virtual environment:
+
+```bash
+pipenv shell
+```
+
+### 3. Initialize the Database
+
+Run the following command to initialize the database and create the required tables:
+
+```bash
+python reset_db.py
+```
+
+This script will create a new SQLite database (`football.db`) in the project directory and set up the tables for leagues, teams, and players.
+
+## Dependencies
+
+The project dependencies are listed in the `Pipfile`. Key dependencies include:
+
+- **SQLAlchemy**: For ORM and database management.
+- **ipdb**: For debugging.
+- **Faker**: For generating mock data (if used).
+- **pytest**: For testing.
+
+## Project Structure
+
+```
+phase3-project-stanleydonjr/
+├── .github/            
+├── lib/
+│   ├── __pycache__/      
+│   ├── cli.py            
+│   ├── football.db       
+│   ├── models.py         
+│   └── reset_db.py       
+├── .canvas               
+├── .gitignore            
+├── LICENSE.md            
+├── Pipfile               
+├── Pipfile.lock          
+└── README.md             
+```
+
+- **`lib/cli.py`**: Contains the CLI commands for interacting with the database.
+- **`lib/models.py`**: Defines the SQLAlchemy ORM models for `League`, `Team`, and `Player`.
+- **`lib/reset_db.py`**: Script to reset and initialize the SQLite database.
+- **`football.db`**: The SQLite database file, created when running `reset_db.py`.
 
 ## Usage
 
-To run the application, execute the following command:
+To start the CLI application, run:
 
 ```bash
-python cli.py
+python lib/cli.py
 ```
 
-This command will launch the CLI, where you can choose from the following menus:
+This will open the main menu, where you can navigate through the options to manage leagues, teams, and players.
 
-1. **Manage Teams**
-   - Create a team with `name`, `city`, and `stadium` details.
-   - List all teams in the database.
-   - Search for a team by ID.
-   - Delete a team by ID.
+## Database Models
 
-2. **Manage Players**
-   - Add a player with a `name`, `position`, and team ID.
-   - List all players in the database.
-   - Search for a player by ID.
-   - Delete a player by ID.
+1. **League**
+   - Attributes: `id`, `name`
+   - Relationships: One-to-many with `Team`
+   
+2. **Team**
+   - Attributes: `id`, `name`, `league_id`
+   - Relationships: Many-to-one with `League`, one-to-many with `Player`
 
----
+3. **Player**
+   - Attributes: `id`, `name`, `team_id`
+   - Relationships: Many-to-one with `Team`
 
-## Code Structure
+Each model includes methods for creating, updating, and deleting records, as well as methods for displaying information.
 
-- **cli.py**: Main CLI script, UI for managing players and teams.
-- **models.py**: Defines the Team and Player models using SQLAlchemy ORM.
-- **reset_db.py**:  A command line utility script for resetting the database which drops all tables and re-initializes them.
-- **Pipfile**:  Allows you to manage your project dependencies using Pipenv.
-- **README.md**:  Setup, Usage instructions, and Project description.
+## CLI Commands
 
----
+The CLI supports the following operations:
 
-## Models Overview
+- **League Management**
+  - Create a new league.
+  - View all leagues.
+  - Delete a league.
 
-- **Team**: 
-   - Fields: `id`, `name`, `city`, `stadium`
-   - Methods: Create a team, retrieve all teams, find by ID, and delete a team.
-   - Relationships: One-to-many relationship with the `Player` model.
+- **Team Management**
+  - Create a new team within a league.
+  - View all teams within a league.
+  - Delete a team.
 
-- **Player**: 
-   - Fields: `id`, `name`, `position`, `team_id`
-   - Methods: Create a player, retrieve all players, find by ID, delete a player, and retrieve the associated team.
-   - Relationships: Many-to-one relationship with the `Team` model.
+- **Player Management**
+  - Add a player to a team.
+  - View all players within a team.
+  - Remove a player from a team.
 
----
+The CLI provides prompts for each action, with validation to ensure that IDs and names are entered correctly. Additionally, feedback messages are provided to confirm each successful operation.
 
-## Future Enhancements
+## Testing
 
-- **Stricter Validation**:Enforce validation to disallow duplicate team names being created. 
-- **Team managment**: Incorporate a player transfer system among teams.
-- **Additional search criteria**: Enable search by any other fields as for example player position or team location.
-- **Performance stats**: Expand the player model to feature performance stats like scores, assists, etc. 
----
+Testing is implemented with **pytest**. To run the tests, ensure you are in the project directory with the Pipenv environment active and run:
+
+```bash
+pytest
+```
+
+This will execute any tests defined within the project, ensuring that functionality is working as expected.
+
+## Contributing
+
+1. Fork the repository.
+2. Create a new feature branch.
+3. Make your changes and commit them.
+4. Push to your branch and open a pull request.
+
+Please ensure that your code adheres to the project’s coding standards and includes appropriate tests.
 
 ## License
 
-This project is open-source and available under the [Learn.co Educational Content License](LICENSE). Feel free to fork the repository and make contributions to improve the project!
+This project is licensed under the terms of the MIT License. See `LICENSE.md` for more details.
 
 ---
-
-Thank you for using FootyManager CLI!
-```
